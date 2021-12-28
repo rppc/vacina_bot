@@ -1,0 +1,54 @@
+name: vacina
+channels:
+  - defaults
+dependencies:
+  - backcall=0.2.0=pyhd3eb1b0_0
+  - beautifulsoup4=4.10.0=pyh06a4308_0
+  - brotlipy=0.7.0
+  - ca-certificates=2021.10.26
+  - certifi=2021.10.8
+  - cffi=1.14.6
+  - charset-normalizer=2.0.4=pyhd3eb1b0_0
+  - cryptography=36.0.0
+  - decorator=5.1.0=pyhd3eb1b0_0
+  - idna=3.3=pyhd3eb1b0_0
+  - ipython=7.29.0
+  - jedi=0.18.0
+  - libffi=3.3
+  - matplotlib-inline=0.1.2=pyhd3eb1b0_2
+  - ncurses=6.3
+  - openssl=1.1.1l
+  - parso=0.8.2=pyhd3eb1b0_0
+  - pexpect=4.8.0=pyhd3eb1b0_3
+  - pickleshare=0.7.5=pyhd3eb1b0_1003
+  - pip=21.2.4
+  - prompt-toolkit=3.0.20=pyhd3eb1b0_0
+  - ptyprocess=0.7.0=pyhd3eb1b0_2
+  - pycparser=2.21=pyhd3eb1b0_0
+  - pygments=2.10.0=pyhd3eb1b0_0
+  - pyopenssl=21.0.0=pyhd3eb1b0_1
+  - pysocks=1.7.1
+  - python=3.9.7
+  - readline=8.1
+  - requests=2.26.0=pyhd3eb1b0_0
+  - setuptools=58.0.4
+  - six=1.16.0=pyhd3eb1b0_0
+  - soupsieve=2.3.1=pyhd3eb1b0_0
+  - sqlite=3.36.0
+  - tk=8.6.11
+  - traitlets=5.1.1=pyhd3eb1b0_0
+  - urllib3=1.26.7=pyhd3eb1b0_0
+  - wcwidth=0.2.5=pyhd3eb1b0_0
+  - wheel=0.37.0=pyhd3eb1b0_1
+  - xz=5.2.5
+  - zlib=1.2.11
+  - pip:
+    - apscheduler==3.6.3
+    - cachetools==4.2.2
+    - python-telegram-bot==13.9
+    - pytz==2021.3
+    - pytz-deprecation-shim==0.1.0.post0
+    - tornado==6.1
+    - tzdata==2021.5
+    - tzlocal==4.1
+
