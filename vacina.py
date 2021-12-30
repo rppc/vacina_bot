@@ -10,6 +10,7 @@ import re
 
 running = False
 ages_per_type = {
+    'flu': -1,
     'regular': -1,
     'janssen': -1,
     'children': -1
@@ -27,14 +28,19 @@ def get_ages():
     if page.status_code == 200:
         soup = BeautifulSoup(page.content, 'html.parser')
         age_indicator = soup.find(id="pedido_content")
-        elems = age_indicator.h4.find_all("strong")
+        elems = age_indicator.h5.find_all("strong")
         ages = []
         for elem in elems:
-            ages.append(int(re.sub("^[^0-9]+", "", elem.string).split()[0]))
+            if elem.string:
+                txt = elem.string
+            else:
+                txt = elem.span.string
+            ages.append(int(re.sub("^[^0-9]+", "", txt).split()[0]))
         result = {
-            'regular': ages[0],
-            'janssen': ages[1],
-            'children': ages[2]
+            'flu': ages[0],
+            'regular': ages[1],
+            'janssen': ages[2],
+            'children': ages[3]
         }
 
         return result
@@ -45,12 +51,14 @@ def get_ages():
 def make_msg():
     msg = "Idades atuais para o autoagendamento da vacina contra a COVID-19:" \
         "\n\n" \
+        "- Reforço + gripe: %d anos ou mais\n" \
         "- Reforço geral: %d anos ou mais\n" \
         "- Reforço para Janssen: %d anos ou mais\n" \
         "- Crianças: dos %d aos 11 anos\n\n" \
         "Realizar o autoagendamento em: " \
         "https://covid19.min-saude.pt/pedido-de-agendamento/" \
-        % (ages_per_type['regular'],
+        % (ages_per_type['flu'],
+           ages_per_type['regular'],
            ages_per_type['janssen'],
            ages_per_type['children'])
 
@@ -67,16 +75,16 @@ def run_loop(context: CallbackContext):
 
 
 def start(update: Update, context: CallbackContext):
-    context.bot.send_message(
-        chat_id='@vacinas_c19',
-        text="Bem-vindo, verifique aqui a(s) idade(s) do "
-        "autoagendamento para a vacina contra a COVID-19.\n\n"
-        "Source code: https://github.com/rppc/vacina_bot.git"
-    )
+    # context.bot.send_message(
+    #     chat_id='@vacinas_c19',
+    #     text="Bem-vindo, verifique aqui a(s) idade(s) do "
+    #     "autoagendamento para a vacina contra a COVID-19.\n\n"
+    #     "Source code: https://github.com/rppc/vacina_bot.git"
+    # )
     global running
     if not running:
         running = True,
-        job_queue.run_repeating(run_loop, interval=60, first=1)
+        job_queue.run_repeating(run_loop, interval=60, first=10)
 
     context.bot.send_message(
         chat_id=update.effective_chat.id,
