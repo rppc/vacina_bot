@@ -13,7 +13,6 @@ ages_per_type = {
     'flu': -1,
     'regular': -1,
     'janssen': -1,
-    'children': -1
 }
 
 
@@ -27,20 +26,16 @@ def get_ages():
     page = requests.get("https://covid19.min-saude.pt/pedido-de-agendamento/")
     if page.status_code == 200:
         soup = BeautifulSoup(page.content, 'html.parser')
-        age_indicator = soup.find(id="pedido_content")
-        elems = age_indicator.h5.find_all("strong")
+        age_indicator = soup.find(class_="covid-content")
+        elems = age_indicator.ul.find_all("strong")
         ages = []
         for elem in elems:
-            if elem.string:
-                txt = elem.string
-            else:
-                txt = elem.span.string
+            txt = elem.string
             ages.append(int(re.sub("^[^0-9]+", "", txt).split()[0]))
         result = {
             'flu': ages[0],
             'regular': ages[1],
             'janssen': ages[2],
-            'children': ages[3]
         }
 
         return result
@@ -54,13 +49,11 @@ def make_msg():
         "- Reforço + gripe: %d anos ou mais\n" \
         "- Reforço geral: %d anos ou mais\n" \
         "- Reforço para Janssen: %d anos ou mais\n" \
-        "- Crianças: dos %d aos 11 anos\n\n" \
         "Realizar o autoagendamento em: " \
         "https://covid19.min-saude.pt/pedido-de-agendamento/" \
         % (ages_per_type['flu'],
            ages_per_type['regular'],
-           ages_per_type['janssen'],
-           ages_per_type['children'])
+           ages_per_type['janssen'])
 
     return msg
 
